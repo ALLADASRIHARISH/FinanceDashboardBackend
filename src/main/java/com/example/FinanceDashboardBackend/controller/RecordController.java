@@ -4,9 +4,9 @@ import com.example.financedashboardbackend.entity.Record;
 import com.example.financedashboardbackend.entity.RecordType;
 import com.example.financedashboardbackend.service.RecordService;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import jakarta.validation.Valid;
+
+import org.springframework.data.domain.*;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,11 +15,14 @@ import java.util.List;
 @RequestMapping("/records")
 public class RecordController {
 
-    @Autowired
-    private RecordService service;
+    private final RecordService service;
+
+    public RecordController(RecordService service) {
+        this.service = service;
+    }
 
     @PostMapping
-    public Record create(@RequestBody Record r) {
+    public Record create(@Valid @RequestBody Record r) {
         return service.create(r);
     }
 
@@ -36,7 +39,7 @@ public class RecordController {
 
     @PatchMapping("/{id}")
     public Record update(@PathVariable Long id,
-                         @RequestBody Record r) {
+                         @Valid @RequestBody Record r) {
         return service.update(id, r);
     }
 

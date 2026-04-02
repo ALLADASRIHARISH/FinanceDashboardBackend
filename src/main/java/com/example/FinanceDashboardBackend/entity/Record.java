@@ -3,6 +3,7 @@ package com.example.financedashboardbackend.entity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 public class Record {
@@ -11,68 +12,54 @@ public class Record {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Positive
+    @Positive(message = "Amount must be positive")
     private Double amount;
 
     @Enumerated(EnumType.STRING)
     private RecordType type;
 
-    @NotBlank
+    @NotBlank(message = "Category cannot be empty")
     private String category;
 
+    @NotNull(message = "Date is required")
     private LocalDate date;
 
     private String notes;
 
-    // ✅ GETTERS
+    // ✅ Audit fields
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 
-    public Long getId() {
-        return id;
+    // ✅ Auto timestamps
+    @PrePersist
+    protected void onCreate() {
+        createdAt = LocalDateTime.now();
+        updatedAt = LocalDateTime.now();
     }
 
-    public Double getAmount() {
-        return amount;
+    @PreUpdate
+    protected void onUpdate() {
+        updatedAt = LocalDateTime.now();
     }
 
-    public RecordType getType() {
-        return type;
-    }
+    // Getters & Setters
+    public Long getId() { return id; }
 
-    public String getCategory() {
-        return category;
-    }
+    public Double getAmount() { return amount; }
+    public void setAmount(Double amount) { this.amount = amount; }
 
-    public LocalDate getDate() {
-        return date;
-    }
+    public RecordType getType() { return type; }
+    public void setType(RecordType type) { this.type = type; }
 
-    public String getNotes() {
-        return notes;
-    }
+    public String getCategory() { return category; }
+    public void setCategory(String category) { this.category = category; }
 
-    // ✅ SETTERS
+    public LocalDate getDate() { return date; }
+    public void setDate(LocalDate date) { this.date = date; }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    public String getNotes() { return notes; }
+    public void setNotes(String notes) { this.notes = notes; }
 
-    public void setAmount(Double amount) {
-        this.amount = amount;
-    }
-
-    public void setType(RecordType type) {
-        this.type = type;
-    }
-
-    public void setCategory(String category) {
-        this.category = category;
-    }
-
-    public void setDate(LocalDate date) {
-        this.date = date;
-    }
-
-    public void setNotes(String notes) {
-        this.notes = notes;
-    }
+    public LocalDateTime getCreatedAt() { return createdAt; }
+    public LocalDateTime getUpdatedAt() { return updatedAt; }
 }

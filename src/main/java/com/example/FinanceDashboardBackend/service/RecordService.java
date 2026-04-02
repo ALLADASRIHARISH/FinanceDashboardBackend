@@ -16,18 +16,22 @@ public class RecordService {
     @Autowired
     private RecordRepository repo;
 
+    // ✅ CREATE
     public Record create(Record r) {
         return repo.save(r);
     }
 
+    // ✅ GET ALL (Pagination)
     public Page<Record> getAll(Pageable pageable) {
         return repo.findAll(pageable);
     }
 
+    // ✅ FILTER (FIXED)
     public List<Record> filter(String category, RecordType type) {
-        return repo.findByCategoryAndType(category, type); // ✅ FIXED
+        return repo.findByCategoryAndType(category, type);
     }
 
+    // ✅ UPDATE
     public Record update(Long id, Record updated) {
         Record r = repo.findById(id)
                 .orElseThrow(() -> new RuntimeException("Record not found with id: " + id));
@@ -41,6 +45,7 @@ public class RecordService {
         return repo.save(r);
     }
 
+    // ✅ DELETE
     public void delete(Long id) {
         if (!repo.existsById(id)) {
             throw new RuntimeException("Record not found with id: " + id);
