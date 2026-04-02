@@ -2,7 +2,9 @@
 
 ## 📌 Overview
 
-This project is a backend system for a finance dashboard that manages financial records and provides aggregated insights. It demonstrates API design, role-based access control, and business logic implementation using Spring Boot.
+This project implements a backend system for a finance dashboard that manages financial records, enforces role-based access control, and provides real-time financial insights.
+
+The application is built using Spring Boot with a focus on clean architecture, data integrity, and maintainable backend design.
 
 ---
 
@@ -21,21 +23,23 @@ This project is a backend system for a finance dashboard that manages financial 
 The application follows a layered architecture:
 
 * **Controller Layer** → Handles HTTP requests
-* **Service Layer** → Contains business logic
-* **Repository Layer** → Handles database operations
+* **Service Layer** → Implements business logic
+* **Repository Layer** → Manages database operations
 * **Entity Layer** → Defines data models
-* **Security Layer** → Role-based access control
-* **Exception Layer** → Global error handling
+* **Security Layer** → Handles role-based access control
+* **Exception Layer** → Provides global error handling
 
 ---
 
-## 👤 User Roles
+## 👤 User Roles & Access Control
 
-| Role    | Permissions                        |
-| ------- | ---------------------------------- |
-| VIEWER  | View dashboard data                |
-| ANALYST | View records and dashboard         |
-| ADMIN   | Full access (CRUD users & records) |
+| Role    | Permissions                                        |
+| ------- | -------------------------------------------------- |
+| VIEWER  | Read-only access to dashboard                      |
+| ANALYST | Read access to records and analytics               |
+| ADMIN   | Full access (CRUD operations on users and records) |
+
+Role-based access control is implemented using Spring Security.
 
 ---
 
@@ -49,30 +53,68 @@ Basic Authentication is used with in-memory users:
 
 ---
 
-## 📊 Features
+## 📊 Core Features
 
 ### 1. User Management
 
-* Create users
-* Update role and active status
-* Delete users
+* Create, update, and delete users
+* Assign roles (VIEWER, ANALYST, ADMIN)
+* Manage user status (active/inactive)
 
-### 2. Financial Records
+---
 
-* Create record (ADMIN only)
+### 2. Financial Records Management
+
+* Create, update, delete financial records (ADMIN only)
 * View records (all roles)
-* Update record (ADMIN only)
-* Delete record (ADMIN only)
 * Filter records by category and type
-* Pagination support
+* Pagination support for scalability
 
-### 3. Dashboard Summary
+---
 
-* Total income
-* Total expenses
-* Net balance
+### 3. Dashboard Analytics
+
+* Total Income
+* Total Expenses
+* Net Balance
+* Category-wise aggregation
+* Recent transaction history
+
+---
+
+## 🔍 Mapping to Assignment Requirements
+
+### ✔ User & Role Management
+
+Implemented Role-Based Access Control (RBAC) with clear separation of permissions.
+
+### ✔ Financial Records
+
+Full CRUD operations with filtering and pagination support.
+
+### ✔ Dashboard Summary APIs
+
+Implemented `/dashboard/summary` endpoint providing:
+
+* Total Income
+* Total Expenses
+* Net Balance
 * Category-wise totals
-* Recent transactions
+* Recent activity
+
+### ✔ Access Control Logic
+
+Enforced using Spring Security with role-based endpoint restrictions.
+
+### ✔ Validation & Error Handling
+
+* Input validation using annotations (`@NotBlank`, `@Positive`, etc.)
+* Global exception handler returning clean JSON error responses
+
+### ✔ Data Persistence
+
+* H2 in-memory database with JPA/Hibernate
+* Automatic schema generation
 
 ---
 
@@ -137,23 +179,23 @@ Basic Authentication is used with in-memory users:
 
 ---
 
-## ⚠️ Assumptions
+## ⚠️ Technical Decisions & Trade-offs
 
-* Basic authentication used for simplicity
-* In-memory database used for quick setup
-* No frontend included
+* Used H2 database for simplicity and quick setup
+* Used Basic Authentication instead of JWT for faster implementation
+* Focused on backend architecture and business logic over deployment
 
 ---
 
-## ⭐ Optional Enhancements
+## ⭐ Possible Enhancements
 
-* JWT authentication
+* JWT-based authentication
 * Persistent database (MySQL/PostgreSQL)
-* Swagger API documentation
-* Advanced filtering and analytics
+* Swagger/OpenAPI documentation
+* Advanced analytics (monthly trends, reports)
 
 ---
 
 ## 📌 Conclusion
 
-This project demonstrates a clean backend architecture with role-based access control and financial data processing. It focuses on maintainability, clarity, and correct implementation of backend principles.
+This project demonstrates a well-structured backend system with role-based access control, financial data processing, and analytics. It emphasizes clarity, maintainability, and correct implementation of backend engineering principles.
